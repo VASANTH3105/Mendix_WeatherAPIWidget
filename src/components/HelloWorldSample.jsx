@@ -1,4 +1,5 @@
 import React, { createElement, useState } from "react";
+import "../ui/UnknownWidget.css";
 
 const api = {
     key: "69b0c482eebc89a44a87223bf24dbf82",
@@ -11,32 +12,41 @@ export function HelloWorldSample({ sampleText }) {
 
     const searchPressed = () => {
         fetch(`${api.base}weather?q=${search}&units=metric&APPID=${api.key}`)
-            .then((res) => res.json())
-            .then((result) => {
+            .then(res => res.json())
+            .then(result => {
                 setWeather(result);
             });
-    }
+    };
 
     return (
         <>
-            <div className="widget-hello-world">Weather widget welcomes you, {sampleText}</div>
+            <div className="widget-wrapper">
+            <h2>{sampleText}</h2>
             <div>
-                <input type="text" placeholder="Search here..." onChange={e => setSearch(e.target.value)} />
-                <button onClick={searchPressed}>Search</button>
+                <input
+                    className="myInput"
+                    type="text"
+                    placeholder="Search here..."
+                    onChange={e => setSearch(e.target.value)}
+                />
+                <button className="mysearchbtn" onClick={searchPressed}>
+                    Search
+                </button>
             </div>
 
             {weather.name && (
-                <div>
-                    <p>Location: {weather.name}</p>
-                    {weather.main && <p>Temperature: {weather.main.temp} °C</p>}
+                <div className="weather-info">
+                    <p className="myptag">Location: {weather.name}</p>
+                    {weather.main && <p className="myptag">Temperature: {weather.main.temp} °C</p>}
                     {weather.weather && weather.weather.length > 0 && (
                         <div>
-                            <p>Weather: {weather.weather[0].main}</p>
-                            <p>Description: {weather.weather[0].description}</p>
+                            <p className="myptag">Weather: {weather.weather[0].main}</p>
+                            <p className="myptag">Description: {weather.weather[0].description}</p>
                         </div>
                     )}
                 </div>
             )}
+            </div>
         </>
     );
 }
